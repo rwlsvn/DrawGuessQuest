@@ -8,6 +8,9 @@ namespace DrawGuessQuest.Server.Game
         private const int RoundDuration = 100000;
         private const int SetWordDuration = 10000;
 
+        private const int GuesserScoreIncrement = 5;
+        private const int PainterScoreIncrement = 3;
+
         private readonly IGameNotificationService _gameNotificationService;
 
         private Guid _id;
@@ -105,8 +108,8 @@ namespace DrawGuessQuest.Server.Game
             {
                 _cancelGameTokenSource.Cancel();
 
-                user.Score += 5;
-                _painter.Score += 2;
+                user.Score += GuesserScoreIncrement;
+                _painter.Score += PainterScoreIncrement;
                 await _gameNotificationService.NotifyWinAsync(_id, user.Username, _word);
                 await SetNextTurn();
             }
