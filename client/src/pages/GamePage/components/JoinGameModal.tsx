@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import playerStore from "../../../store/playerStore";
 import gameHubClient from "../../../signalr/gameHubClient";
 import connectionStore from "../../../store/connectionStore";
-import { Button, Modal, Form } from 'react-bootstrap';
+import {Button, Modal, Form} from 'react-bootstrap';
 import {observer} from "mobx-react-lite";
 
 const JoinGameModal = observer(() => {
@@ -16,10 +16,10 @@ const JoinGameModal = observer(() => {
     };
 
     const handleEnterClick = () => {
-        if(username !== ''){
+        if (username !== '') {
             playerStore.username = username
             gameHubClient.invokeServerMethod
-            ('JoinGroup', connectionStore.connectionId, playerStore.username)
+                ('JoinGroup', connectionStore.connectionId, playerStore.username)
             handleClose();
         }
     };

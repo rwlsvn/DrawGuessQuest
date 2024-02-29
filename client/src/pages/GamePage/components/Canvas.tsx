@@ -65,7 +65,7 @@ const Canvas = observer(() => {
     };
 
     const drawPaintingHandler = (drawnPainting: DrawnLine[]) => {
-        drawnPainting.forEach((drawnLine : DrawnLine) => {
+        drawnPainting.forEach((drawnLine: DrawnLine) => {
             drawPainting(drawnLine)
         });
     };
@@ -94,14 +94,14 @@ const Canvas = observer(() => {
     };
 
     const onMouseUp = (e: MouseEvent) => {
-        if(isDrawingRef.current){
+        if (isDrawingRef.current) {
             const target = e.target as HTMLCanvasElement;
             const x = e.pageX - (target?.offsetLeft || 0);
             const y = e.pageY - (target?.offsetTop || 0);
             drawLine(x, y);
             drawnLineStateRef.current = {
                 ...drawnLineStateRef.current,
-                points: [...drawnLineStateRef.current.points, { x, y }]
+                points: [...drawnLineStateRef.current.points, {x, y}]
             }
             drawnLineStateRef.current = {
                 ...drawnLineStateRef.current,
@@ -120,7 +120,7 @@ const Canvas = observer(() => {
             drawLine(x, y);
             drawnLineStateRef.current = {
                 ...drawnLineStateRef.current,
-                points: [...drawnLineStateRef.current.points, { x, y }]
+                points: [...drawnLineStateRef.current.points, {x, y}]
             }
             checkDrawingData()
         }
@@ -140,7 +140,7 @@ const Canvas = observer(() => {
             drawLine(point.x, point.y);
         });
 
-        if (drawnLine.isFinished){
+        if (drawnLine.isFinished) {
             ctxRef.current?.beginPath();
         }
     }

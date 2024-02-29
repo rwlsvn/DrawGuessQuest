@@ -30,7 +30,7 @@ const MessageCard = observer(() => {
     const receiveMessageHandler = (message: string, username: string) => {
         setMessages((prevMessages) => [
             ...prevMessages,
-            { message: message, username: username },
+            {message: message, username: username},
         ]);
     };
 

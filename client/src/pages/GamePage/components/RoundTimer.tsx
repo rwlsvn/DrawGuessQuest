@@ -10,7 +10,7 @@ const RoundTimer = observer(() => {
     useEffect(() => {
         if (connectionStore.isConnected) {
             gameHubClient.subscribeToEvent
-                ('RemainingTimeMilliseconds', remainingTimeMillisecondsHandler);
+            ('RemainingTimeMilliseconds', remainingTimeMillisecondsHandler);
             gameHubClient.subscribeToEvent('RoundStarted', roundStartedHandler);
             gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
 
@@ -40,7 +40,7 @@ const RoundTimer = observer(() => {
     };
 
     const newTurnHandler = () => {
-      stopTimer();
+        stopTimer();
     };
 
     const startTimer = (initialTime: number) => {
@@ -52,7 +52,7 @@ const RoundTimer = observer(() => {
     };
 
     const stopTimer = () => {
-        if(intervalRef.current){
+        if (intervalRef.current) {
             clearInterval(intervalRef.current);
         }
     };

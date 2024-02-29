@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {HubConnection} from "@microsoft/signalr";
 
-class ConnectionStore{
+class ConnectionStore {
     isConnected: boolean;
     connectionId: string | null;
 
@@ -11,11 +11,11 @@ class ConnectionStore{
         this.connectionId = null;
     }
 
-    setIsConnected(isConnected: boolean){
+    setIsConnected(isConnected: boolean) {
         this.isConnected = isConnected;
     }
 
-    setConnectionId(connectionId: string){
+    setConnectionId(connectionId: string) {
         this.connectionId = connectionId;
     }
 }

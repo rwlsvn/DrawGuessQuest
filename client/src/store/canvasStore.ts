@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx";
-import { RefObject } from "react";
+import {makeAutoObservable} from "mobx";
+import {RefObject} from "react";
 
 class CanvasStore {
     canvas: HTMLCanvasElement | null;

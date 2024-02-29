@@ -48,7 +48,7 @@ const SetNewRoundModal = observer(() => {
     }
 
     const handleEnterWordClick = () => {
-        if (word !== ''){
+        if (word !== '') {
             gameHubClient.invokeServerMethod
             ('StartRound', connectionStore.connectionId, word);
             playerStore.setDrawingWord(word);
@@ -66,7 +66,7 @@ const SetNewRoundModal = observer(() => {
     };
 
     const stopTimer = () => {
-        if(intervalRef.current){
+        if (intervalRef.current) {
             clearInterval(intervalRef.current);
         }
     };
@@ -80,16 +80,16 @@ const SetNewRoundModal = observer(() => {
             centered
         >
             <Modal.Body>
-                {showWinner &&(
+                {showWinner && (
                     <div className='my-2'>
-                        <div  className='text-lg my-1'>Winner: {winnerName}</div>
+                        <div className='text-lg my-1'>Winner: {winnerName}</div>
                         <div className='text-lg my-1'>Guessed Word: {guessedWord}</div>
                     </div>
                 )}
                 {playerStore.isDrawing ?
                     <div className='my-2'>
                         <Form.Group controlId="formUsername" className='my-2'>
-                            <div  className='text-lg my-1'>Enter your word:</div>
+                            <div className='text-lg my-1'>Enter your word:</div>
                             <Form.Control
                                 type="text"
                                 placeholder="Word"

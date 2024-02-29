@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-class PlayerStore{
+class PlayerStore {
     username: string | null
     isDrawing: boolean
     drawingWord: string | null
@@ -12,15 +12,15 @@ class PlayerStore{
         this.drawingWord = null;
     }
 
-    setUsername(username: string){
+    setUsername(username: string) {
         this.username = username;
     }
 
-    setIsDrawing(isDrawing: boolean){
+    setIsDrawing(isDrawing: boolean) {
         this.isDrawing = isDrawing;
     }
 
-    setDrawingWord(drawingWord: string){
+    setDrawingWord(drawingWord: string) {
         this.drawingWord = drawingWord;
     }
 }

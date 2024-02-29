@@ -15,7 +15,7 @@ import PlayerList from "./components/PlayerList";
 import MessageCard from "./components/MessageCard";
 
 const GamePage = observer(() => {
-    const { id } = useParams();
+    const {id} = useParams();
 
     useEffect(() => {
         if (id) {
@@ -27,9 +27,15 @@ const GamePage = observer(() => {
                 connectionStore.setIsConnected(true);
             });
 
-        gameHubClient.onClose(() => {connectionStore.setIsConnected(false)});
-        gameHubClient.onReconnecting(() => {connectionStore.setIsConnected(false)});
-        gameHubClient.onReconnected(() => {connectionStore.setIsConnected(true)});
+        gameHubClient.onClose(() => {
+            connectionStore.setIsConnected(false)
+        });
+        gameHubClient.onReconnecting(() => {
+            connectionStore.setIsConnected(false)
+        });
+        gameHubClient.onReconnected(() => {
+            connectionStore.setIsConnected(true)
+        });
 
         gameHubClient.subscribeToEvent('NotifyPainter', () => {
             playerStore.setIsDrawing(true)
@@ -41,7 +47,7 @@ const GamePage = observer(() => {
         });
 
         return () => {
-            //gameHubClient.stopConnection();
+            gameHubClient.stopConnection();
         };
     }, [id]);
 
@@ -49,7 +55,7 @@ const GamePage = observer(() => {
         <div className="flex items-center justify-center h-screen bg-purple-300">
             <Modal show={!connectionStore.isConnected} backdrop="static" size="sm" centered>
                 <Modal.Body>
-                   Connection...
+                    Connection...
                 </Modal.Body>
             </Modal>
             {connectionStore.isConnected &&
