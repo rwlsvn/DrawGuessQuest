@@ -26,6 +26,8 @@ namespace DrawGuessQuest.Server.Services
             await _hubContext.Clients.GroupExcept(gameInfo.Id.ToString(), joinedPlayer.ConnectionId)
                 .PlayerJoinGame(playerInfo);
             await _hubContext.Clients.Client(joinedPlayer.ConnectionId)
+                .ClearPainting();
+            await _hubContext.Clients.Client(joinedPlayer.ConnectionId)
                 .DrawPainting(gameInfo.DrawnLines);
             await _hubContext.Clients.Client(joinedPlayer.ConnectionId)
                 .PlayersInfo(gameInfo.Players);
