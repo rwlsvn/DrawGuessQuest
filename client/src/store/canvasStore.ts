@@ -32,6 +32,7 @@ class CanvasStore {
         const ctx = this.canvas?.getContext('2d');
         if (ctx && this.canvas) {
             ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            ctx.beginPath();
         }
     }
 }

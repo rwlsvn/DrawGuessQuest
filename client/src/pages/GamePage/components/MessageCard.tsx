@@ -4,22 +4,20 @@ import gameHubClient from "../../../signalr/gameHubClient";
 import {Message} from "../../../models/message";
 import {observer} from "mobx-react-lite";
 
-const MessageCard = observer(() => {
+const MessageCard = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputMessage, setInputMessage] = useState('');
     const messageContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (connectionStore.isConnected) {
-            gameHubClient.subscribeToEvent('ReceiveMessage', receiveMessageHandler);
-            gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
-        }
+        gameHubClient.subscribeToEvent('ReceiveMessage', receiveMessageHandler);
+        gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
 
         return () => {
             gameHubClient.unsubscribeFromEvent('ReceiveMessage', receiveMessageHandler);
             gameHubClient.unsubscribeFromEvent('NewTurn', newTurnHandler);
         };
-    }, [connectionStore.isConnected]);
+    }, []);
 
     useEffect(() => {
         if (messageContainerRef.current) {
@@ -81,6 +79,6 @@ const MessageCard = observer(() => {
             </div>
         </div>
     );
-});
+};
 
 export default MessageCard;

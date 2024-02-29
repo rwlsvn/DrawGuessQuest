@@ -5,7 +5,7 @@ import connectionStore from "../../../store/connectionStore";
 import {Button, Modal, Form} from 'react-bootstrap';
 import {observer} from "mobx-react-lite";
 
-const JoinGameModal = observer(() => {
+const JoinGameModal = () => {
     const [show, setShow] = useState(true);
     const [username, setUsername] = useState('');
 
@@ -19,7 +19,7 @@ const JoinGameModal = observer(() => {
         if (username !== '') {
             playerStore.username = username
             gameHubClient.invokeServerMethod
-                ('JoinGroup', connectionStore.connectionId, playerStore.username)
+                ('JoinGroup', connectionStore.connectionId, playerStore.username);
             handleClose();
         }
     };
@@ -60,6 +60,6 @@ const JoinGameModal = observer(() => {
             </Modal>
         </>
     );
-});
+};
 
 export default JoinGameModal;

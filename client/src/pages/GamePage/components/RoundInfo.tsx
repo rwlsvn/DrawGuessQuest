@@ -1,37 +1,34 @@
 import {useEffect, useState} from "react";
-import connectionStore from "../../../store/connectionStore";
 import gameHubClient from "../../../signalr/gameHubClient";
 import playerStore from "../../../store/playerStore";
 import {observer} from "mobx-react-lite";
 
 const RoundInfo = observer(() => {
-    const [painter, setPainter] = useState('')
+    const [painter, setPainter] = useState('');
     const [wordLength, setWordLength] = useState(0)
 
     useEffect(() => {
-        if (connectionStore.connectionId) {
-            gameHubClient.subscribeToEvent('NewPainter', newPainterHandler);
-            gameHubClient.subscribeToEvent('NotifyPainter', notifyPainterHandler);
-            gameHubClient.subscribeToEvent('SetWord', setWordHandler);
-        }
+        gameHubClient.subscribeToEvent('NewPainter', newPainterHandler);
+        gameHubClient.subscribeToEvent('NotifyPainter', notifyPainterHandler);
+        gameHubClient.subscribeToEvent('SetWord', setWordHandler);
 
         return () => {
             gameHubClient.unsubscribeFromEvent('NewPainter', newPainterHandler);
             gameHubClient.unsubscribeFromEvent('NotifyPainter', notifyPainterHandler);
             gameHubClient.unsubscribeFromEvent('SetWord', setWordHandler);
         };
-    }, [connectionStore.connectionId]);
+    }, []);
 
     const newPainterHandler = (painterName: string) => {
-        setPainter(painterName)
+        setPainter(painterName);
     };
 
     const notifyPainterHandler = () => {
-        setPainter('You')
+        setPainter('You');
     };
 
     const setWordHandler = (letterCount: number) => {
-        setWordLength(letterCount)
+        setWordLength(letterCount);
     };
 
     return (

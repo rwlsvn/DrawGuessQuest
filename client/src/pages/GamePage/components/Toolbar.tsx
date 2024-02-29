@@ -4,9 +4,8 @@ import playerStore from "../../../store/playerStore";
 import canvasStore from "../../../store/canvasStore";
 import gameHubClient from "../../../signalr/gameHubClient";
 import connectionStore from "../../../store/connectionStore";
-import {observer} from "mobx-react-lite";
 
-const Toolbar = observer(() => {
+const Toolbar = () => {
     const [value, setValue] = useState(1);
 
     useEffect(() => {
@@ -55,6 +54,6 @@ const Toolbar = observer(() => {
         </div>
     );
 
-});
+};
 
 export default Toolbar;

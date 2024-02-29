@@ -1,4 +1,4 @@
-import React, {LegacyRef, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {observer} from "mobx-react-lite";
 import canvasStore from "../../../store/canvasStore";
 import connectionStore from "../../../store/connectionStore";
@@ -28,11 +28,9 @@ const Canvas = observer(() => {
             }
         }
 
-        if (connectionStore.isConnected) {
-            gameHubClient.subscribeToEvent('DrawLine', drawLineHandler);
-            gameHubClient.subscribeToEvent('DrawPainting', drawPaintingHandler);
-            gameHubClient.subscribeToEvent('ClearPainting', clearPaintingHandler);
-        }
+        gameHubClient.subscribeToEvent('DrawLine', drawLineHandler);
+        gameHubClient.subscribeToEvent('DrawPainting', drawPaintingHandler);
+        gameHubClient.subscribeToEvent('ClearPainting', clearPaintingHandler);
 
         return () => {
             gameHubClient.unsubscribeFromEvent('DrawLine', drawLineHandler);
@@ -40,7 +38,7 @@ const Canvas = observer(() => {
             gameHubClient.unsubscribeFromEvent('ClearPainting', clearPaintingHandler);
         };
 
-    }, [connectionStore.isConnected]);
+    }, []);
 
     useEffect(() => {
         ctxRef.current?.beginPath()
@@ -61,12 +59,12 @@ const Canvas = observer(() => {
     }, [playerStore.isDrawing]);
 
     const drawLineHandler = (drawnLine: DrawnLine) => {
-        drawPainting(drawnLine)
+        drawPainting(drawnLine);
     };
 
     const drawPaintingHandler = (drawnPainting: DrawnLine[]) => {
         drawnPainting.forEach((drawnLine: DrawnLine) => {
-            drawPainting(drawnLine)
+            drawPainting(drawnLine);
         });
     };
 
@@ -90,7 +88,7 @@ const Canvas = observer(() => {
             isFinished: false,
             points: [{x, y}],
         });
-        checkDrawingData()
+        checkDrawingData();
     };
 
     const onMouseUp = (e: MouseEvent) => {
@@ -102,13 +100,13 @@ const Canvas = observer(() => {
             drawnLineStateRef.current = {
                 ...drawnLineStateRef.current,
                 points: [...drawnLineStateRef.current.points, {x, y}]
-            }
+            };
             drawnLineStateRef.current = {
                 ...drawnLineStateRef.current,
                 isFinished: true
-            }
-            sendDrawingData()
-            isDrawingRef.current = false
+            };
+            sendDrawingData();
+            isDrawingRef.current = false;
         }
     };
 
@@ -121,8 +119,8 @@ const Canvas = observer(() => {
             drawnLineStateRef.current = {
                 ...drawnLineStateRef.current,
                 points: [...drawnLineStateRef.current.points, {x, y}]
-            }
-            checkDrawingData()
+            };
+            checkDrawingData();
         }
     };
 
@@ -147,7 +145,7 @@ const Canvas = observer(() => {
 
     const checkDrawingData = () => {
         if (drawnLineStateRef.current.points.length > 80) {
-            sendDrawingData()
+            sendDrawingData();
             drawnLineStateRef.current = {
                 color: ctxRef.current!.strokeStyle as string,
                 width: ctxRef.current!.lineWidth,
@@ -159,7 +157,7 @@ const Canvas = observer(() => {
 
     const sendDrawingData = () => {
         gameHubClient.invokeServerMethod("DrawLine",
-            connectionStore.connectionId, drawnLineStateRef.current)
+            connectionStore.connectionId, drawnLineStateRef.current);
     }
 
     return (

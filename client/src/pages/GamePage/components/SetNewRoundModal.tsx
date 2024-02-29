@@ -16,11 +16,9 @@ const SetNewRoundModal = observer(() => {
     const intervalRef = useRef<NodeJS.Timer | null>(null);
 
     useEffect(() => {
-        if (connectionStore.isConnected) {
-            gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
-            gameHubClient.subscribeToEvent('NotifyWin', notifyWinHandler);
-            gameHubClient.subscribeToEvent('RoundStarted', roundStartedHandler);
-        }
+        gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
+        gameHubClient.subscribeToEvent('NotifyWin', notifyWinHandler);
+        gameHubClient.subscribeToEvent('RoundStarted', roundStartedHandler);
 
         return () => {
             gameHubClient.unsubscribeFromEvent('NewTurn', newTurnHandler);
@@ -28,7 +26,7 @@ const SetNewRoundModal = observer(() => {
             gameHubClient.unsubscribeFromEvent('RoundStarted', roundStartedHandler);
 
         };
-    }, [connectionStore.isConnected]);
+    }, []);
 
     const newTurnHandler = () => {
         setShow(true);
@@ -37,20 +35,20 @@ const SetNewRoundModal = observer(() => {
     };
 
     const notifyWinHandler = (winnerName: string, word: string) => {
-        setShowWinner(true)
-        setWinnerName(winnerName)
-        setGuessedWord(word)
+        setShowWinner(true);
+        setWinnerName(winnerName);
+        setGuessedWord(word);
     }
 
     const roundStartedHandler = () => {
-        setShow(false)
-        setShowWinner(false)
+        setShow(false);
+        setShowWinner(false);
     }
 
     const handleEnterWordClick = () => {
         if (word !== '') {
             gameHubClient.invokeServerMethod
-            ('StartRound', connectionStore.connectionId, word);
+                ('StartRound', connectionStore.connectionId, word);
             playerStore.setDrawingWord(word);
             setWord('');
             stopTimer();

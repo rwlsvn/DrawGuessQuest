@@ -1,25 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import connectionStore from "../../../store/connectionStore";
 import gameHubClient from "../../../signalr/gameHubClient";
 import {Player} from "../../../models/player";
-import {observer} from "mobx-react-lite";
 
-const PlayerList = observer(() => {
+const PlayerList = () => {
     const [players, setPlayers] = useState<Player[]>([]);
 
     useEffect(() => {
-        if (connectionStore.isConnected) {
-            gameHubClient.subscribeToEvent('PlayersInfo', playersInfoHandler);
-            gameHubClient.subscribeToEvent('PlayerJoinGame', playerJoinGameHandler);
-            gameHubClient.subscribeToEvent('PlayerLeftGame', playerLeftGameHandler);
-        }
+        gameHubClient.subscribeToEvent('PlayersInfo', playersInfoHandler);
+        gameHubClient.subscribeToEvent('PlayerJoinGame', playerJoinGameHandler);
+        gameHubClient.subscribeToEvent('PlayerLeftGame', playerLeftGameHandler);
 
         return () => {
             gameHubClient.unsubscribeFromEvent('PlayersInfo', playersInfoHandler);
             gameHubClient.unsubscribeFromEvent('PlayerJoinGame', playerJoinGameHandler);
             gameHubClient.unsubscribeFromEvent('PlayerLeftGame', playerLeftGameHandler);
         };
-    }, [connectionStore.isConnected]);
+    }, []);
 
     const playersInfoHandler = (players: Player[]) => {
         setPlayers(players);
@@ -52,6 +48,6 @@ const PlayerList = observer(() => {
             </div>
         </div>
     );
-});
+};
 
 export default PlayerList;

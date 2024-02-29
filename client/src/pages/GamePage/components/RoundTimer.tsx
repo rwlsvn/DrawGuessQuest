@@ -1,31 +1,23 @@
 import {useEffect, useRef, useState} from "react";
-import connectionStore from "../../../store/connectionStore";
 import gameHubClient from "../../../signalr/gameHubClient";
-import {observer} from "mobx-react-lite";
 
-const RoundTimer = observer(() => {
+const RoundTimer = () => {
     const [time, setTime] = useState(0);
     const intervalRef = useRef<NodeJS.Timer | null>(null);
 
     useEffect(() => {
-        if (connectionStore.isConnected) {
-            gameHubClient.subscribeToEvent
+        gameHubClient.subscribeToEvent
             ('RemainingTimeMilliseconds', remainingTimeMillisecondsHandler);
-            gameHubClient.subscribeToEvent('RoundStarted', roundStartedHandler);
-            gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
-
-            return () => {
-                gameHubClient.unsubscribeFromEvent
-                    ('RemainingTimeMilliseconds', remainingTimeMillisecondsHandler);
-                gameHubClient.unsubscribeFromEvent('RoundStarted', roundStartedHandler);
-                gameHubClient.unsubscribeFromEvent('NewTurn', newTurnHandler);
-            };
-        }
+        gameHubClient.subscribeToEvent('RoundStarted', roundStartedHandler);
+        gameHubClient.subscribeToEvent('NewTurn', newTurnHandler);
 
         return () => {
-            stopTimer();
+            gameHubClient.unsubscribeFromEvent
+                ('RemainingTimeMilliseconds', remainingTimeMillisecondsHandler);
+            gameHubClient.unsubscribeFromEvent('RoundStarted', roundStartedHandler);
+            gameHubClient.unsubscribeFromEvent('NewTurn', newTurnHandler);
         };
-    }, [connectionStore.isConnected]);
+    }, []);
 
     const remainingTimeMillisecondsHandler = (receivedTime: number) => {
         const timeInSeconds = Math.floor(receivedTime / 1000);
@@ -58,6 +50,6 @@ const RoundTimer = observer(() => {
     };
 
     return <div className='text-lg'>Time: {time}s</div>;
-});
+};
 
 export default RoundTimer;
